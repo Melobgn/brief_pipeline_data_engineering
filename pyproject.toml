@@ -27,9 +27,7 @@ version_source = "tag"
 tag_format = "v{version}"
 
 # uniquement main (pas de pré-releases sur develop)
-branches = [
-  { name = "main" }
-]
+branches = { main = {} }
 
 # Génération du changelog + parsing Conventional Commits
 changelog_file = "CHANGELOG.md"
