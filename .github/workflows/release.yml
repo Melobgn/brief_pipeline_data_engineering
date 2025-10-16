@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main   # déclenche uniquement sur main
+      - develop   # pour les pré-releases
 
 permissions:
   contents: write        # créer tags + commits CHANGELOG
