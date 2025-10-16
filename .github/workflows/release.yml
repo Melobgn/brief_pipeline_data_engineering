@@ -1,0 +1,30 @@
+name: Release (Python + uvx)
+
+on:
+  push:
+    branches:
+      - main   # Le workflow ne s'exécute que sur main
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # indispensable pour que semantic-release voie l'historique et les tags
+
+      - uses: astral-sh/setup-uv@v4
+
+      - name: Install Python
+        run: uv python install 3.11
+
+      - name: Semantic Release (publish)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # requis pour créer tags/releases
+          # PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }} # si tu publies sur PyPI (voir pyproject)
+        run: uvx --python 3.11 python-semantic-release publish
