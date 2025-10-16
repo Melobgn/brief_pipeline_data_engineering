@@ -1,0 +1,39 @@
+[project]
+name = "brief-pipeline-data-engineering"
+version = "0.0.0"  # ignoré (version gérée par tags)
+requires-python = ">=3.10"
+description = "Pipeline data engineering automatisé avec uv et python-semantic-release"
+readme = "README.md"
+license = { text = "MIT" }
+
+# Dépendances de ton projet
+dependencies = [
+  "pandas",
+  "dlt",
+  "duckdb",
+  "requests"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "ruff",
+  "black"
+]
+
+[tool.semantic_release]
+# Source de vérité = tags Git (vX.Y.Z)
+version_source = "tag"
+tag_format = "v{version}"
+
+# uniquement main (pas de pré-releases sur develop)
+branches = { main = {} }
+
+# Génération du changelog + parsing Conventional Commits
+changelog_file = "CHANGELOG.md"
+commit_parser = "conventional"
+
+# Publication PyPI (désactivée par défaut)
+upload_to_pypi = false
+# Si upload_to_pypi=true, semantic-release exécutera la commande de build ci-dessous
+build_command = "uvx build"
