@@ -1,12 +1,12 @@
-name: Release (Python + uvx)
+name: Release (Node + semantic-release)
 
 on:
   push:
     branches:
-      - main   # Le workflow ne s'exécute que sur main
+      - main   # déclenche uniquement sur main
 
 permissions:
-  contents: write
+  contents: write        # créer tags + commits CHANGELOG
   issues: write
   pull-requests: write
 
@@ -16,14 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # indispensable pour que semantic-release voie l'historique et les tags
+          fetch-depth: 0   # indispensable pour que semantic-release voie l'historique + tags
 
-      - uses: astral-sh/setup-uv@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Install Python
-        run: uv python install 3.11
+      - name: Install deps
+        run: npm ci || npm i
 
-      - name: Semantic Release (publish)
+      - name: Release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # requis pour créer tags/releases
-        run: uvx --python 3.11 python-semantic-release publish
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
