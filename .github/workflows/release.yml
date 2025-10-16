@@ -26,5 +26,4 @@ jobs:
       - name: Semantic Release (publish)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # requis pour créer tags/releases
-          # PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }} # si tu publies sur PyPI (voir pyproject)
         run: uvx --python 3.11 python-semantic-release publish
